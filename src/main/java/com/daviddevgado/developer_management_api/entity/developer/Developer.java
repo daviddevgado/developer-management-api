@@ -1,12 +1,17 @@
 package com.daviddevgado.developer_management_api.entity.developer;
 
+import com.daviddevgado.developer_management_api.entity.project.Project;
 import com.daviddevgado.developer_management_api.entity.project_assignment.ProjectAssignment;
+import com.daviddevgado.developer_management_api.entity.project_assignment.ProjectRole;
+import com.daviddevgado.developer_management_api.entity.technology.Technology;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "developers")
@@ -28,16 +33,35 @@ public class Developer {
 
     private BigDecimal salary;
 
-    @ElementCollection
-    private List<String> techStack = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "developer_technologies",
+            joinColumns = @JoinColumn(name = "developer_id"),
+            inverseJoinColumns = @JoinColumn(name = "technology_id")
+    )
+    private Set<Technology> technologies = new HashSet<>();
 
     @OneToMany(mappedBy = "developer")
     private List<ProjectAssignment> projectAssignments = new ArrayList<>();
 
-    @OneToOne(mappedBy = "developer", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "developer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private DeveloperProfile profile;
 
-    private LocalDateTime createdAt;
+    @Column(nullable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    private Boolean active;
+    private LocalDateTime finishedAt;
+    private String finishedReason;
+    private String finishedBy;
+
+    @Column(nullable = false)
+    private Boolean active = true;
+
+    public Developer() {}
+
+    public Developer(String name, String email, Seniority seniority) {
+        this.name = name;
+        this.email = email;
+        this.seniority = seniority;
+    }
 }

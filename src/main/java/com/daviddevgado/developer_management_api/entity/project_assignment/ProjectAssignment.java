@@ -24,11 +24,17 @@ public class ProjectAssignment {
     @Column(nullable = false)
     private ProjectRole role;
 
-    private LocalDateTime assignedAt;
-
+    private LocalDateTime assignedAt = LocalDateTime.now();
     private LocalDateTime finishedAt;
-
     private Integer hoursPerWeek;
+    private Boolean active = true;
 
-    private Boolean active;
+    public ProjectAssignment() {}
+
+    public ProjectAssignment(Developer developer, Project project, ProjectRole role, Integer hoursPerWeek) {
+        this.developer = developer;
+        this.project = project;
+        this.role = role;
+        this.hoursPerWeek = hoursPerWeek;
+    }
 }

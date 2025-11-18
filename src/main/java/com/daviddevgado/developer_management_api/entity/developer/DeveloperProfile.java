@@ -13,10 +13,11 @@ public class DeveloperProfile {
     private String bio;
     private String linkedinUrl;
     private String gitHubUrl;
-
     private byte[] profilePicture;
 
     @OneToOne
     @JoinColumn(name = "developer_id")
     private Developer developer;
+
+    public DeveloperProfile() {}
 }

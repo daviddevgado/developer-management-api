@@ -4,6 +4,7 @@ import com.daviddevgado.developer_management_api.entity.project_assignment.Proje
 import com.daviddevgado.developer_management_api.entity.technology.Technology;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,4 +34,14 @@ public class Project {
 
     @OneToMany(mappedBy = "project")
     private final List<ProjectAssignment> developerAssignments = new ArrayList<>();
+
+    private LocalDateTime startedAt;
+    private LocalDateTime finishedAt;
+
+    public Project() {}
+
+    public Project(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

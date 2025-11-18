@@ -1,5 +1,6 @@
 package com.daviddevgado.developer_management_api.entity.technology;
 
+import com.daviddevgado.developer_management_api.entity.developer.Developer;
 import com.daviddevgado.developer_management_api.entity.project.Project;
 import jakarta.persistence.*;
 
@@ -21,4 +22,14 @@ public class Technology {
 
     @ManyToMany(mappedBy = "technologies")
     private Set<Project> projects = new HashSet<>();
+
+    @ManyToMany(mappedBy = "technologies")
+    private Set<Developer> developers = new HashSet<>();
+
+    public Technology() {}
+
+    public Technology (String name, String description){
+        this.name = name;
+        this.description = description;
+    }
 }
