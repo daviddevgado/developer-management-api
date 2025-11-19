@@ -48,7 +48,7 @@ public class Developer {
     private DeveloperProfile profile;
 
     @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime startedAt = LocalDateTime.now();
 
     private LocalDateTime finishedAt;
     private String finishedReason;

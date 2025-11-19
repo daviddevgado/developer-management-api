@@ -38,6 +38,9 @@ public class Project {
     private LocalDateTime startedAt;
     private LocalDateTime finishedAt;
 
+    @Column(nullable = false)
+    private Boolean active = true;
+
     public Project() {}
 
     public Project(String name, String description) {
