@@ -1,8 +1,6 @@
 package com.daviddevgado.developer_management_api.entity.developer;
 
-import com.daviddevgado.developer_management_api.entity.project.Project;
 import com.daviddevgado.developer_management_api.entity.project_assignment.ProjectAssignment;
-import com.daviddevgado.developer_management_api.entity.project_assignment.ProjectRole;
 import com.daviddevgado.developer_management_api.entity.technology.Technology;
 import jakarta.persistence.*;
 
