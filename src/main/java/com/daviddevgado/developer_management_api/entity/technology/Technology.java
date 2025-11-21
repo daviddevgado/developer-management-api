@@ -32,4 +32,16 @@ public class Technology {
         this.name = name;
         this.description = description;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }

@@ -57,9 +57,34 @@ public class Developer {
 
     public Developer() {}
 
-    public Developer(String name, String email, Seniority seniority) {
+    public Developer(String name, String email, Seniority seniority, BigDecimal salary) {
         this.name = name;
         this.email = email;
         this.seniority = seniority;
+        this.salary = salary;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Seniority getSeniority() {
+        return seniority;
+    }
+
+    public BigDecimal getSalary() {
+        return salary;
+    }
+
+    public Set<Technology> getTechnologies() {
+        return technologies;
     }
 }
