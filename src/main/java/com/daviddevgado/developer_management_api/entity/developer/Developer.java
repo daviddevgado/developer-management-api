@@ -64,27 +64,15 @@ public class Developer {
         this.salary = salary;
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() {return id;}
+    public String getName() {return name;}
+    public String getEmail() {return email;}
+    public Seniority getSeniority() {return seniority;}
+    public BigDecimal getSalary() {return salary;}
+    public Set<Technology> getTechnologies() {return technologies;}
 
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Seniority getSeniority() {
-        return seniority;
-    }
-
-    public BigDecimal getSalary() {
-        return salary;
-    }
-
-    public Set<Technology> getTechnologies() {
-        return technologies;
-    }
+    public void setName(String name) {this.name = name;}
+    public void setEmail(String email) {this.email = email;}
+    public void setSeniority(Seniority seniority) {this.seniority = seniority;}
+    public void setSalary(BigDecimal salary) {this.salary = salary;}
 }
