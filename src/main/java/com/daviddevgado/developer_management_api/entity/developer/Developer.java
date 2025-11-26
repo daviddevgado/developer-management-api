@@ -49,7 +49,11 @@ public class Developer {
     private LocalDateTime startedAt = LocalDateTime.now();
 
     private LocalDateTime finishedAt;
+
+    @Column(nullable = false)
     private String finishedReason;
+
+    @Column(nullable = false)
     private String finishedBy;
 
     @Column(nullable = false)
@@ -70,6 +74,7 @@ public class Developer {
     public Seniority getSeniority() {return seniority;}
     public BigDecimal getSalary() {return salary;}
     public Set<Technology> getTechnologies() {return technologies;}
+    public Boolean getActive() {return active;}
 
     public void setName(String name) {this.name = name;}
     public void setEmail(String email) {this.email = email;}

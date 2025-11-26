@@ -7,6 +7,6 @@ import com.daviddevgado.developer_management_api.entity.developer.dto.developer.
 public interface DeveloperService {
     DeveloperDTO addDeveloper(CreateDeveloperRequest request);
     DeveloperDTO updateDeveloper(Long developerId, UpdateDeveloperRequest request);
-    DeveloperDTO deleteDeveloper(Long developerId, String reason, String deletedBy);
+    void deleteDeveloper(Long developerId);
     DeveloperDTO getDeveloperById(Long developerId);
 }

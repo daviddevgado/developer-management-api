@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -90,8 +91,17 @@ public class DeveloperServiceImpl implements DeveloperService {
     }
 
     @Override
-    public DeveloperDTO deleteDeveloper(Long developerId, String reason, String deletedBy) {
-        return null;
+    public void deleteDeveloper(@PathVariable Long developerId) {
+        log.info("🚀 Starting developer deleting for id: {}", developerId);
+        Developer developer = developerRepository.findById(developerId)
+                .orElseThrow(() -> new DeveloperNotFoundException("Developer not found with id: " + developerId));
+
+        if(!developer.getActive()) {
+            throw new InvalidDeveloperDataException("Developer with id " + developerId + " is already inactive");
+        }
+
+        developerRepository.delete(developer);
+        log.info("🗑️ Developer permanently deleted - ID: {}", developerId);
     }
 
     @Override
