@@ -105,7 +105,11 @@ public class DeveloperServiceImpl implements DeveloperService {
 
     @Override
     public DeveloperDTO getDeveloperById(Long developerId) {
-        return null;
+        log.debug("🔍 Fetching developer with ID: {}", developerId);
+        Developer developer = developerRepository.findById(developerId)
+                .orElseThrow(() -> new DeveloperNotFoundException("Developer not found with id: " + developerId));
+        log.info("✅ Developer retrieved - ID: {}, Email: {}", developer.getId(), developer.getEmail());
+        return developerMapper.toDTO(developer);
     }
 
     private String getUpdatedFields(UpdateDeveloperRequest request) {
