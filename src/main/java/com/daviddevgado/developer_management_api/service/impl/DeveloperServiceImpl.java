@@ -35,7 +35,7 @@ public class DeveloperServiceImpl implements DeveloperService {
     }
 
     @Override
-    public DeveloperDTO addDeveloper(@RequestBody CreateDeveloperRequest request) {
+    public DeveloperDTO addDeveloper(CreateDeveloperRequest request) {
         log.info("🚀 Starting developer creation for email: {}", request.email());
         Developer developer = developerMapper.toEntity(request);
         Developer savedDeveloper = developerRepository.save(developer);
@@ -45,7 +45,7 @@ public class DeveloperServiceImpl implements DeveloperService {
     }
 
     @Override
-    public DeveloperDTO updateDeveloper(@PathVariable Long developerId, @RequestBody UpdateDeveloperRequest request) {
+    public DeveloperDTO updateDeveloper(Long developerId, UpdateDeveloperRequest request) {
         log.info("🚀 Starting developer updating for id: {}", developerId);
         Developer developer = developerRepository.findById(developerId)
                 .orElseThrow(() -> new DeveloperNotFoundException("Developer not found with id: " + developerId));
@@ -90,7 +90,7 @@ public class DeveloperServiceImpl implements DeveloperService {
     }
 
     @Override
-    public void deleteDeveloper(@PathVariable Long developerId) {
+    public void deleteDeveloper(Long developerId) {
         log.info("🚀 Starting developer deleting for id: {}", developerId);
         Developer developer = developerRepository.findById(developerId)
                 .orElseThrow(() -> new DeveloperNotFoundException("Developer not found with id: " + developerId));
