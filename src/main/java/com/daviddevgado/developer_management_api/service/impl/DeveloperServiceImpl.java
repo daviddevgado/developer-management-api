@@ -54,25 +54,24 @@ public class DeveloperServiceImpl implements DeveloperService {
 
         if(request.name() != null) {
             String trimmedName = request.name().trim();
-            if(!trimmedName.isBlank()) {
-                developer.setName(trimmedName);
-            } else {
+            if(trimmedName.isBlank()) {
                 throw new InvalidDeveloperDataException("Name cannot be blank");
             }
+            developer.setName(trimmedName);
         }
 
         if(request.email() != null) {
             String trimmedEmail = request.email().trim();
-            if(!trimmedEmail.isBlank()) {
-                Optional<Developer> existingDeveloper = developerRepository.findByEmailIgnoreCase(trimmedEmail);
-                if(existingDeveloper.isPresent() && !existingDeveloper.get().getId().equals(developerId)) {
-                    throw new EmailAlreadyExistsException("Email " + trimmedEmail + " already exists");
-                } else {
-                    developer.setEmail(trimmedEmail);
-                }
-            } else {
+            if (trimmedEmail.isBlank()) {
                 throw new InvalidDeveloperDataException("Email cannot be blank");
             }
+            Optional<Developer> existingDeveloper = developerRepository.findByEmailIgnoreCase(trimmedEmail);
+            boolean emailBelongsToOtherPeople = existingDeveloper.isPresent() && !existingDeveloper.get().getId().equals(developerId);
+
+            if(emailBelongsToOtherPeople) {
+                throw new EmailAlreadyExistsException("Email " + trimmedEmail + " already exists");
+            }
+            developer.setEmail(trimmedEmail);
         }
 
         if(request.seniority() != null) {
