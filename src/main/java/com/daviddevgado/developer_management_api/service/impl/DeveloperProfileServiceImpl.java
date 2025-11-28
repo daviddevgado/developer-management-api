@@ -160,7 +160,11 @@ public class DeveloperProfileServiceImpl implements DeveloperProfileService {
     }
 
     @Override
-    public DevProfileDTO getDeveloperProfileId(Long profileId) {
-        return null;
+    public DevProfileDTO getProfileById(Long profileId) {
+        log.debug("🔍 Fetching profile with ID: {}", profileId);
+        DeveloperProfile profile = devProfileRepository.findById(profileId)
+                .orElseThrow(() -> new ProfileNotFoundException("Profile not found with id: " + profileId));
+        log.info("✅ Profile retrieved - ID: {}", profile.getId());
+        return profileMapper.toDTO(profile);
     }
 }

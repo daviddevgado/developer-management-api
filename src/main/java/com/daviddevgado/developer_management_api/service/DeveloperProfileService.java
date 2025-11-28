@@ -8,5 +8,5 @@ public interface DeveloperProfileService {
     DevProfileDTO createDeveloperProfile(Long developerId, DevProfileRequest request, MultipartFile profilePicture);
     DevProfileDTO updateDeveloperProfile(Long profileId, DevProfileRequest request, MultipartFile profilePicture);
     void deleteDeveloperProfile(Long profileId);
-    DevProfileDTO getDeveloperProfileId(Long profileId);
+    DevProfileDTO getProfileById(Long profileId);
 }
