@@ -2,7 +2,7 @@ package com.daviddevgado.developer_management_api.entity.developer.mapper;
 
 import com.daviddevgado.developer_management_api.entity.developer.Developer;
 import com.daviddevgado.developer_management_api.entity.developer.DeveloperProfile;
-import com.daviddevgado.developer_management_api.entity.developer.dto.developer_profile.CreateDevProfileRequest;
+import com.daviddevgado.developer_management_api.entity.developer.dto.developer_profile.DevProfileRequest;
 import com.daviddevgado.developer_management_api.entity.developer.dto.developer_profile.DevProfileDTO;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +22,7 @@ public class ProfileMapper {
         );
     }
 
-    public DeveloperProfile toEntity(CreateDevProfileRequest request, Developer developer, byte[] profilePicture) {
+    public DeveloperProfile toEntity(DevProfileRequest request, Developer developer, byte[] profilePicture) {
         if(request == null || developer == null) {
             return null;
         }

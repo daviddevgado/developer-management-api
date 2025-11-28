@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.URL;
 
-public record CreateDevProfileRequest (
+public record DevProfileRequest(
         @Size(max = 500, message = "Bio must be at most 500 characters")
         String bio,
 

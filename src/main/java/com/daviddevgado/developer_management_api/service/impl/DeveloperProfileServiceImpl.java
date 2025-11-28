@@ -2,9 +2,8 @@ package com.daviddevgado.developer_management_api.service.impl;
 
 import com.daviddevgado.developer_management_api.entity.developer.Developer;
 import com.daviddevgado.developer_management_api.entity.developer.DeveloperProfile;
-import com.daviddevgado.developer_management_api.entity.developer.dto.developer_profile.CreateDevProfileRequest;
+import com.daviddevgado.developer_management_api.entity.developer.dto.developer_profile.DevProfileRequest;
 import com.daviddevgado.developer_management_api.entity.developer.dto.developer_profile.DevProfileDTO;
-import com.daviddevgado.developer_management_api.entity.developer.dto.developer_profile.UpdateDevProfileRequest;
 import com.daviddevgado.developer_management_api.entity.developer.exception.DeveloperNotFoundException;
 import com.daviddevgado.developer_management_api.entity.developer.exception.InvalidDeveloperDataException;
 import com.daviddevgado.developer_management_api.entity.developer.exception.InvalidProfileDataException;
@@ -40,7 +39,7 @@ public class DeveloperProfileServiceImpl implements DeveloperProfileService {
     private static final long MAX_PROFILE_PICTURE_SIZE = 2 * 1024 * 1024;
 
     @Override
-    public DevProfileDTO createDeveloperProfile(Long developerId, CreateDevProfileRequest request, MultipartFile profilePicture) {
+    public DevProfileDTO createDeveloperProfile(Long developerId, DevProfileRequest request, MultipartFile profilePicture) {
         log.info("🚀 Starting developer profile creation for developer: {}", developerId);
         Developer developer = developerRepository.findById(developerId)
                 .orElseThrow(() -> new DeveloperNotFoundException("Developer not found with id: " + developerId));
@@ -96,8 +95,53 @@ public class DeveloperProfileServiceImpl implements DeveloperProfileService {
     }
 
     @Override
-    public DevProfileDTO updateDeveloperProfile(Long profileId, UpdateDevProfileRequest request) {
-        return null;
+    public DevProfileDTO updateDeveloperProfile(Long profileId, DevProfileRequest request, MultipartFile profilePicture) {
+        log.info("🚀 Starting developer profile updating for profile: {}", profileId);
+        DeveloperProfile profile = devProfileRepository.findById(profileId)
+                .orElseThrow(() -> new DeveloperNotFoundException("Developer profile not found with id: " + profileId));
+
+        if (request.bio() != null) {
+            String trimmedBio = request.bio().trim();
+            if(trimmedBio.length() > MAX_BIO_LENGTH) {
+                throw new InvalidProfileDataException("Bio exceeds maximum length of 500 characters");
+            }
+            if(trimmedBio.isBlank()) {
+                throw new InvalidProfileDataException(("Bio cannot be empty or blank"));
+            }
+            profile.setBio(trimmedBio);
+        }
+
+        if (request.gitHubUrl() != null) {
+            String trimmedUrl = request.gitHubUrl().trim();
+            if (trimmedUrl.isBlank()) {
+                throw new InvalidProfileDataException("GitHub URL cannot be empty or blank");
+            }
+            profile.setGitHubUrl(trimmedUrl);
+        }
+
+        if (request.linkedinUrl() != null) {
+            String trimmedUrl = request.linkedinUrl().trim();
+            if (trimmedUrl.isBlank()) {
+                throw new InvalidProfileDataException("Linkedin URL cannot be empty or blank");
+            }
+            profile.setLinkedinUrl(trimmedUrl);
+        }
+
+        if (profilePicture != null && !profilePicture.isEmpty()) {
+            if (profilePicture.getSize() > MAX_PROFILE_PICTURE_SIZE) {
+                throw new InvalidProfileDataException("Profile picture exceeds maximum size of 2MB");
+            }
+            try {
+                profile.setProfilePicture(profilePicture.getBytes());
+            } catch (IOException e) {
+                log.error("❌Error processing profile picture for profile {}: {}", profileId, e.getMessage());
+                throw new InvalidDeveloperDataException("Error processing profile picture");
+            }
+        }
+
+        DeveloperProfile updatedProfile = devProfileRepository.save(profile);
+        log.info("✅ Profile updated successfully: {}", profileId);
+        return profileMapper.toDTO(updatedProfile);
     }
 
     @Override
