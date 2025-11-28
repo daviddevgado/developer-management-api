@@ -7,6 +7,7 @@ import com.daviddevgado.developer_management_api.entity.developer.dto.developer_
 import com.daviddevgado.developer_management_api.entity.developer.exception.DeveloperNotFoundException;
 import com.daviddevgado.developer_management_api.entity.developer.exception.InvalidDeveloperDataException;
 import com.daviddevgado.developer_management_api.entity.developer.exception.InvalidProfileDataException;
+import com.daviddevgado.developer_management_api.entity.developer.exception.ProfileNotFoundException;
 import com.daviddevgado.developer_management_api.entity.developer.mapper.ProfileMapper;
 import com.daviddevgado.developer_management_api.repository.DevProfileRepository;
 import com.daviddevgado.developer_management_api.repository.DeveloperRepository;
@@ -98,7 +99,7 @@ public class DeveloperProfileServiceImpl implements DeveloperProfileService {
     public DevProfileDTO updateDeveloperProfile(Long profileId, DevProfileRequest request, MultipartFile profilePicture) {
         log.info("🚀 Starting developer profile updating for profile: {}", profileId);
         DeveloperProfile profile = devProfileRepository.findById(profileId)
-                .orElseThrow(() -> new DeveloperNotFoundException("Developer profile not found with id: " + profileId));
+                .orElseThrow(() -> new ProfileNotFoundException("Developer profile not found with id: " + profileId));
 
         if (request.bio() != null) {
             String trimmedBio = request.bio().trim();
@@ -145,8 +146,17 @@ public class DeveloperProfileServiceImpl implements DeveloperProfileService {
     }
 
     @Override
-    public DevProfileDTO deleteDeveloperProfile(Long profileId) {
-        return null;
+    public void deleteDeveloperProfile(Long profileId) {
+        log.info("🚀 Starting developer profile deleting for profile: {}", profileId);
+        DeveloperProfile profile = devProfileRepository.findById(profileId)
+                .orElseThrow(() -> new ProfileNotFoundException("Developer profile not found with id: " + profileId));
+
+        if (profile.getDeveloper() != null) {
+            profile.getDeveloper().setProfile(null);
+        }
+
+        devProfileRepository.delete(profile);
+        log.info("🗑️ Profile permanently deleted - ID: {}", profileId);
     }
 
     @Override
