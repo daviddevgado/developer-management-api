@@ -75,9 +75,11 @@ public class Developer {
     public BigDecimal getSalary() {return salary;}
     public Set<Technology> getTechnologies() {return technologies;}
     public Boolean getActive() {return active;}
+    public DeveloperProfile getProfile() {return profile;}
 
     public void setName(String name) {this.name = name;}
     public void setEmail(String email) {this.email = email;}
     public void setSeniority(Seniority seniority) {this.seniority = seniority;}
     public void setSalary(BigDecimal salary) {this.salary = salary;}
+    public void setProfile(DeveloperProfile profile) {this.profile = profile;}
 }
