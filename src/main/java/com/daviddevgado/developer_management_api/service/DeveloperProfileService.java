@@ -5,8 +5,8 @@ import com.daviddevgado.developer_management_api.entity.developer.dto.developer_
 import org.springframework.web.multipart.MultipartFile;
 
 public interface DeveloperProfileService {
-    DevProfileDTO createDeveloperProfile(Long developerId, DevProfileRequest request, MultipartFile profilePicture);
-    DevProfileDTO updateDeveloperProfile(Long profileId, DevProfileRequest request, MultipartFile profilePicture);
-    void deleteDeveloperProfile(Long profileId);
+    DevProfileDTO createProfile(Long developerId, DevProfileRequest request, MultipartFile profilePicture);
+    DevProfileDTO updateProfile(Long profileId, DevProfileRequest request, MultipartFile profilePicture);
+    void deleteProfile(Long profileId);
     DevProfileDTO getProfileById(Long profileId);
 }

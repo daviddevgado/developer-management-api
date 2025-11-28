@@ -40,7 +40,7 @@ public class DeveloperProfileServiceImpl implements DeveloperProfileService {
     private static final long MAX_PROFILE_PICTURE_SIZE = 2 * 1024 * 1024;
 
     @Override
-    public DevProfileDTO createDeveloperProfile(Long developerId, DevProfileRequest request, MultipartFile profilePicture) {
+    public DevProfileDTO createProfile(Long developerId, DevProfileRequest request, MultipartFile profilePicture) {
         log.info("🚀 Starting developer profile creation for developer: {}", developerId);
         Developer developer = developerRepository.findById(developerId)
                 .orElseThrow(() -> new DeveloperNotFoundException("Developer not found with id: " + developerId));
@@ -96,7 +96,7 @@ public class DeveloperProfileServiceImpl implements DeveloperProfileService {
     }
 
     @Override
-    public DevProfileDTO updateDeveloperProfile(Long profileId, DevProfileRequest request, MultipartFile profilePicture) {
+    public DevProfileDTO updateProfile(Long profileId, DevProfileRequest request, MultipartFile profilePicture) {
         log.info("🚀 Starting developer profile updating for profile: {}", profileId);
         DeveloperProfile profile = devProfileRepository.findById(profileId)
                 .orElseThrow(() -> new ProfileNotFoundException("Developer profile not found with id: " + profileId));
@@ -146,7 +146,7 @@ public class DeveloperProfileServiceImpl implements DeveloperProfileService {
     }
 
     @Override
-    public void deleteDeveloperProfile(Long profileId) {
+    public void deleteProfile(Long profileId) {
         log.info("🚀 Starting developer profile deleting for profile: {}", profileId);
         DeveloperProfile profile = devProfileRepository.findById(profileId)
                 .orElseThrow(() -> new ProfileNotFoundException("Developer profile not found with id: " + profileId));
