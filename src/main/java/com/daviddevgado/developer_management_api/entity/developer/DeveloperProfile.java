@@ -13,8 +13,13 @@ public class DeveloperProfile {
 
     @Column(length = 500)
     private String bio;
+
+    @Column(unique = true)
     private String linkedinUrl;
+
+    @Column(unique = true)
     private String gitHubUrl;
+
     private byte[] profilePicture;
 
     @OneToOne
