@@ -6,6 +6,6 @@ import com.daviddevgado.developer_management_api.entity.technology.dto.Technolog
 public interface TechnologyService {
     TechnologyDTO addTechnology(TechnologyRequest request);
     TechnologyDTO updateTechnology(Long id, TechnologyRequest request);
-    TechnologyDTO deleteTechnology(Long id);
+    void deleteTechnology(Long id);
     TechnologyDTO getTechnologyById(Long id);
 }

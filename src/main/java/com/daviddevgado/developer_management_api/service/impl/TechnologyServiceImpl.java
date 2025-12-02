@@ -1,10 +1,14 @@
 package com.daviddevgado.developer_management_api.service.impl;
 
+import com.daviddevgado.developer_management_api.entity.developer.Developer;
+import com.daviddevgado.developer_management_api.entity.developer.exception.DeveloperNotFoundException;
+import com.daviddevgado.developer_management_api.entity.developer.exception.InvalidDeveloperDataException;
 import com.daviddevgado.developer_management_api.entity.technology.Technology;
 import com.daviddevgado.developer_management_api.entity.technology.dto.TechnologyRequest;
 import com.daviddevgado.developer_management_api.entity.technology.dto.TechnologyDTO;
 import com.daviddevgado.developer_management_api.entity.technology.exception.TechnologyAlreadyExistsException;
 import com.daviddevgado.developer_management_api.entity.technology.exception.TechnologyDataInvalidException;
+import com.daviddevgado.developer_management_api.entity.technology.exception.TechnologyInUseException;
 import com.daviddevgado.developer_management_api.entity.technology.exception.TechnologyNotFoundException;
 import com.daviddevgado.developer_management_api.entity.technology.mapper.TechnologyMapper;
 import com.daviddevgado.developer_management_api.repository.TechnologyRepository;
@@ -57,10 +61,7 @@ public class TechnologyServiceImpl implements TechnologyService {
     public TechnologyDTO updateTechnology(Long id, TechnologyRequest request) {
         log.info("🚀 Starting technology update for ID: {}", id);
         Technology technology = technologyRepository.findById(id)
-                .orElseThrow(() -> {
-                    log.warn(" Technology with id '{}' not found for update", id);
-                    return new TechnologyNotFoundException("Technology with id '" + id + "' not found.");
-                });
+                .orElseThrow(() -> new TechnologyNotFoundException("Technology with id '" + id + "' not found."));
 
         log.info("📝 Updating fields for technology {}: {}", id, getUpdatedFields(request));
 
@@ -93,8 +94,26 @@ public class TechnologyServiceImpl implements TechnologyService {
 
     @Override
     @Transactional
-    public TechnologyDTO deleteTechnology(Long id) {
-        return null;
+    public void deleteTechnology(Long id) {
+        log.info("🚀 Starting technology deleting for id: {}", id);
+        Technology technology = technologyRepository.findById(id)
+                .orElseThrow(() -> new TechnologyNotFoundException("Technology with id '" + id + "' not found."));
+
+        if(!technology.getDevelopers().isEmpty() || !technology.getProjects().isEmpty()) {
+            log.warn("⚠️ Cannot delete technology '{}' - has {} associated developers and {} associated projects",
+                    technology.getName(),
+                    technology.getDevelopers().size(),
+                    technology.getProjects().size());
+
+            throw new TechnologyInUseException(
+                    technology.getName(),
+                    technology.getDevelopers().size(),
+                    technology.getProjects().size()
+            );
+        }
+
+        technologyRepository.delete(technology);
+        log.info("🗑️ Technology permanently deleted - ID: {}", id);
     }
 
     @Override
