@@ -1,8 +1,5 @@
 package com.daviddevgado.developer_management_api.service.impl;
 
-import com.daviddevgado.developer_management_api.entity.developer.Developer;
-import com.daviddevgado.developer_management_api.entity.developer.exception.DeveloperNotFoundException;
-import com.daviddevgado.developer_management_api.entity.developer.exception.InvalidDeveloperDataException;
 import com.daviddevgado.developer_management_api.entity.technology.Technology;
 import com.daviddevgado.developer_management_api.entity.technology.dto.TechnologyRequest;
 import com.daviddevgado.developer_management_api.entity.technology.dto.TechnologyDTO;
@@ -119,7 +116,11 @@ public class TechnologyServiceImpl implements TechnologyService {
     @Override
     @Transactional(readOnly = true)
     public TechnologyDTO getTechnologyById(Long id) {
-        return null;
+        log.debug("🔍 Fetching technology with ID: {}", id);
+        Technology technology = technologyRepository.findById(id)
+                .orElseThrow(() -> new TechnologyNotFoundException("Developer not found with id: " + id));
+        log.info("✅ Technology retrieved - ID: {}, Name: {}", technology.getId(), technology.getName());
+        return technologyMapper.toDTO(technology);
     }
 
     private String getUpdatedFields(TechnologyRequest request) {
