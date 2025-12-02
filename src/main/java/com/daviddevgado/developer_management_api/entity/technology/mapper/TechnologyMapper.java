@@ -1,14 +1,14 @@
 package com.daviddevgado.developer_management_api.entity.technology.mapper;
 
 import com.daviddevgado.developer_management_api.entity.technology.Technology;
-import com.daviddevgado.developer_management_api.entity.technology.dto.CreateTechnologyRequest;
+import com.daviddevgado.developer_management_api.entity.technology.dto.TechnologyRequest;
 import com.daviddevgado.developer_management_api.entity.technology.dto.TechnologyDTO;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TechnologyMapper {
 
-    public Technology toEntity(CreateTechnologyRequest request) {
+    public Technology toEntity(TechnologyRequest request) {
         return new Technology(request.name(), request.description());
     }
 

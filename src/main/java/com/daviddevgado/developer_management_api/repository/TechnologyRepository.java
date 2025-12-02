@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface TechnologyRepository extends JpaRepository<Technology, Long> {
     boolean existsByNameIgnoreCase(String name);
+    boolean existsByNameIgnoreCaseAndIdNot(String name, Long id);
     List<Technology> findByDevelopersId(Long developerId);
     List<Technology> findByProjectsId(Long projectId);
 }
