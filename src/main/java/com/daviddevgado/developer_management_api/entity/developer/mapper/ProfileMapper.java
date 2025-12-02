@@ -10,9 +10,6 @@ import org.springframework.stereotype.Component;
 public class ProfileMapper {
 
     public DevProfileDTO toDTO(DeveloperProfile developerProfile) {
-        if(developerProfile == null) {
-            return null;
-        }
         return new DevProfileDTO(
                 developerProfile.getDeveloper().getId(),
                 developerProfile.getDeveloper().getName(),
@@ -23,9 +20,6 @@ public class ProfileMapper {
     }
 
     public DeveloperProfile toEntity(DevProfileRequest request, Developer developer, byte[] profilePicture) {
-        if(request == null || developer == null) {
-            return null;
-        }
         DeveloperProfile profile = new DeveloperProfile();
         profile.setDeveloper(developer);
         if (request.bio() != null) {

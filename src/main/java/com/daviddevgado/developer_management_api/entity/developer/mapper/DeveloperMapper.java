@@ -15,9 +15,6 @@ import java.util.stream.Collectors;
 public class DeveloperMapper {
 
     public DeveloperDTO toDTO(Developer developer) {
-        if(developer == null) {
-            return null;
-        }
         return new DeveloperDTO(
                 developer.getId(),
                 developer.getName(),
@@ -29,9 +26,6 @@ public class DeveloperMapper {
     }
 
     public Developer toEntity(CreateDeveloperRequest developerDTO) {
-        if(developerDTO == null) {
-            return null;
-        }
         return new Developer(
                 developerDTO.name(),
                 developerDTO.email(),
