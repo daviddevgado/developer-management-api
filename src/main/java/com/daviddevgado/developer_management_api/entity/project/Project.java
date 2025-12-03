@@ -18,11 +18,13 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String name;
+
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private ProjectStatus status;
+    private ProjectStatus status = ProjectStatus.PLANNING;
 
     @ManyToMany
     @JoinTable(
@@ -35,7 +37,7 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private final List<ProjectAssignment> developerAssignments = new ArrayList<>();
 
-    private LocalDateTime startedAt;
+    private LocalDateTime startedAt = LocalDateTime.now();
     private LocalDateTime finishedAt;
 
     @Column(nullable = false)
@@ -47,4 +49,8 @@ public class Project {
         this.name = name;
         this.description = description;
     }
+
+    public Long getId() {return id;}
+    public String getName() {return name;}
+    public String getDescription() {return description;}
 }

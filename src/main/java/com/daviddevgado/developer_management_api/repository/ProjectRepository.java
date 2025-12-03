@@ -13,6 +13,7 @@ import java.util.Optional;
 public interface ProjectRepository extends JpaRepository<Project, Long> {
     // By name
     Optional<Project> findByNameIgnoreCase(String name);
+    boolean existsByNameIgnoreCase(String name);
 
     // By active status
     List<Project> findByActiveTrue();

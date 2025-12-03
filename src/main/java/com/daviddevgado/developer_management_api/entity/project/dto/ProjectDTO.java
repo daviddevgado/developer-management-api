@@ -1,4 +1,6 @@
 package com.daviddevgado.developer_management_api.entity.project.dto;
 
-public class ProjectDTO {
-}
+public record ProjectDTO (
+        Long id,
+        String name,
+        String description) { }
