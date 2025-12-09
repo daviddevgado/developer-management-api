@@ -7,7 +7,10 @@ import com.daviddevgado.developer_management_api.entity.project.exception.Projec
 import com.daviddevgado.developer_management_api.entity.project.exception.ProjectDataInvalidException;
 import com.daviddevgado.developer_management_api.entity.project.exception.ProjectNotFoundException;
 import com.daviddevgado.developer_management_api.entity.project.mapper.ProjectMapper;
+import com.daviddevgado.developer_management_api.entity.technology.Technology;
 import com.daviddevgado.developer_management_api.entity.technology.exception.TechnologyAlreadyExistsException;
+import com.daviddevgado.developer_management_api.entity.technology.exception.TechnologyInUseException;
+import com.daviddevgado.developer_management_api.entity.technology.exception.TechnologyNotFoundException;
 import com.daviddevgado.developer_management_api.repository.ProjectRepository;
 import com.daviddevgado.developer_management_api.service.ProjectService;
 import org.slf4j.Logger;
@@ -98,8 +101,13 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     @Transactional
-    public ProjectDTO deleteProject(Long id) {
-        return null;
+    public void deleteProject(Long id) {
+        log.info("🚀 Starting project deleting for id: {}", id);
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new ProjectNotFoundException("Project with id '" + id + "' not found."));
+
+        projectRepository.delete(project);
+        log.info("🗑️ Technology permanently deleted - ID: {}", id);
     }
 
     @Override

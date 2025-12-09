@@ -6,6 +6,6 @@ import com.daviddevgado.developer_management_api.entity.project.dto.ProjectDTO;
 public interface ProjectService {
     ProjectDTO createProject(ProjectRequest request);
     ProjectDTO updateProject(Long id, ProjectRequest request);
-    ProjectDTO deleteProject(Long id);
+    void deleteProject(Long id);
     ProjectDTO getProjectById(Long id);
 }
