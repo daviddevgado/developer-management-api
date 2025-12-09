@@ -113,6 +113,10 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     @Transactional(readOnly = true)
     public ProjectDTO getProjectById(Long id) {
-        return null;
+        log.debug("🔍 Fetching project with ID: {}", id);
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new ProjectNotFoundException("Project not found with id: " + id));
+        log.info("✅ Project retrieved - ID: {}, Name: {}", project.getId(), project.getName());
+        return projectMapper.toDTO(project);
     }
 }
