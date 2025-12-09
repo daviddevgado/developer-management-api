@@ -35,20 +35,18 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional
     public ProjectDTO createProject(ProjectRequest request) {
         log.info("🚀 Starting project creation with name: {}", request.name());
-
-        ProjectRequest cleanedRequest = sanitizeRequest(request);
-
-        if(cleanedRequest.name() == null || cleanedRequest.name().isBlank()) {
+        
+        if(request.name() == null || request.name().isBlank()) {
             log.debug("🔄 Project creation rejected: null or empty name");
             throw new ProjectDataInvalidException("Project name cannot be null or blank.");
         }
 
-        if (projectRepository.existsByNameIgnoreCase(cleanedRequest.name())) {
-            log.warn("⚠️ Duplicate project creation attempted: '{}'", cleanedRequest.name());
-            throw new ProjectAlreadyExistsException("Project with name '" + cleanedRequest.name() + "' already exists.");
+        if (projectRepository.existsByNameIgnoreCase(request.name())) {
+            log.warn("⚠️ Duplicate project creation attempted: '{}'", request.name());
+            throw new ProjectAlreadyExistsException("Project with name '" + request.name() + "' already exists.");
         }
 
-        Project newProject = projectMapper.toEntity(cleanedRequest);
+        Project newProject = projectMapper.toEntity(request);
         Project savedProject = projectRepository.save(newProject);
         log.info("✅ Project successfully created - ID: {}, Name: {}",
                 savedProject.getId(), savedProject.getName());
