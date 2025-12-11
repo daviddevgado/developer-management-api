@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api/v1/developers")
@@ -27,8 +30,15 @@ public class DeveloperController {
     public ResponseEntity<DeveloperDTO> createDeveloper(@Valid @RequestBody CreateDeveloperRequest request) {
         log.info("📥 POST /api/v1/developers - Email: {}", request.email());
         DeveloperDTO developerCreated = developerService.addDeveloper(request);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(developerCreated.id())
+                .toUri();
+
         log.info("📝 Created developer ID: {} - Email: {}", developerCreated.id(), developerCreated.email());
-        return ResponseEntity.status(HttpStatus.CREATED).body(developerCreated);
+        return ResponseEntity.created(location).body(developerCreated);
     }
 
     @GetMapping("/{id}")
