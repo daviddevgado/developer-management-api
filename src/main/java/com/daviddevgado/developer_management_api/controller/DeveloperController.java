@@ -48,9 +48,11 @@ public class DeveloperController {
         return ResponseEntity.ok(developerUpdated);
     }
 
-
-
-
-
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteDeveloper(@PathVariable Long id) {
+        log.info("📥 DELETE /api/v1/developers/{id} - Starting delete: {}", id);
+        developerService.deleteDeveloper(id);
+        log.info("✅ Developer deleted - ID: {}", id);
+        return ResponseEntity.noContent().build();
+    }
 }
