@@ -3,11 +3,8 @@ package com.daviddevgado.developer_management_api.controller;
 import com.daviddevgado.developer_management_api.entity.developer.dto.developer.CreateDeveloperRequest;
 import com.daviddevgado.developer_management_api.entity.developer.dto.developer.DeveloperDTO;
 import com.daviddevgado.developer_management_api.entity.developer.dto.developer.UpdateDeveloperRequest;
-import com.daviddevgado.developer_management_api.entity.developer.exception.DeveloperNotFoundException;
-import com.daviddevgado.developer_management_api.exceptions.InternalServerErrorException;
 import com.daviddevgado.developer_management_api.service.DeveloperService;
 import jakarta.validation.Valid;
-import jakarta.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -29,14 +26,17 @@ public class DeveloperController {
     @PostMapping
     public ResponseEntity<DeveloperDTO> createDeveloper(@Valid @RequestBody CreateDeveloperRequest request) {
         log.info("📥 POST /api/v1/developers - Email: {}", request.email());
-        try {
-            DeveloperDTO developerCreated = developerService.addDeveloper(request);
-            log.info("📝 Created developer ID: {} - Email: {}", developerCreated.id(), developerCreated.email());
-            return ResponseEntity.status(HttpStatus.CREATED).body(developerCreated);
-        } catch (Exception e) {
-            log.error("❌ Error creating developer: {}", e.getMessage());
-            throw e;
-        }
+        DeveloperDTO developerCreated = developerService.addDeveloper(request);
+        log.info("📝 Created developer ID: {} - Email: {}", developerCreated.id(), developerCreated.email());
+        return ResponseEntity.status(HttpStatus.CREATED).body(developerCreated);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DeveloperDTO> getDeveloperById(@PathVariable Long id) {
+        log.info("📥 GET /api/v1/developers/{}", id);
+        DeveloperDTO developer = developerService.getDeveloperById(id);
+        log.info("✅ Developer retrieved - ID: {}, Email: {}", developer.id(), developer.email());
+        return ResponseEntity.ok(developer);
     }
 
     @PutMapping("/{id}")
@@ -47,4 +47,10 @@ public class DeveloperController {
         log.info("✅ Developer updated - ID: {}, Email: {}", developerUpdated.id(), developerUpdated.email());
         return ResponseEntity.ok(developerUpdated);
     }
+
+
+
+
+
+
 }
