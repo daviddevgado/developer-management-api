@@ -49,11 +49,7 @@ public class Developer {
     private LocalDateTime startedAt = LocalDateTime.now();
 
     private LocalDateTime finishedAt;
-
-    @Column(nullable = false)
     private String finishedReason;
-
-    @Column(nullable = false)
     private String finishedBy;
 
     @Column(nullable = false)
