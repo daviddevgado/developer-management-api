@@ -4,6 +4,7 @@ import com.daviddevgado.developer_management_api.entity.developer.Developer;
 import com.daviddevgado.developer_management_api.entity.developer.Seniority;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,8 @@ import java.util.Optional;
 @Repository
 public interface DeveloperRepository extends JpaRepository<Developer,Long> {
 
+    @EntityGraph(attributePaths = {"technologies"})
+    Optional<Developer> findWithTechnologiesById(Long id);
     List<Developer> findByNameIgnoreCase(String name);
     Optional<Developer> findByEmailIgnoreCase(String email);
     Page<Developer> findBySeniorityAndActive(Seniority seniority, Boolean active, Pageable pageable);

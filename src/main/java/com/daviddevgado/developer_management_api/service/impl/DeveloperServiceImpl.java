@@ -104,10 +104,10 @@ public class DeveloperServiceImpl implements DeveloperService {
     }
 
     @Override
-    public DeveloperDTO getDeveloperById(Long developerId) {
-        log.debug("🔍 Fetching developer with ID: {}", developerId);
-        Developer developer = developerRepository.findById(developerId)
-                .orElseThrow(() -> new DeveloperNotFoundException("Developer not found with id: " + developerId));
+    public DeveloperDTO getDeveloperById(Long id) {
+        log.debug("🔍 Fetching developer with ID: {}", id);
+        Developer developer = developerRepository.findWithTechnologiesById(id)
+                .orElseThrow(() -> new DeveloperNotFoundException("Developer not found with id: " + id));
         log.info("✅ Developer retrieved - ID: {}, Email: {}", developer.getId(), developer.getEmail());
         return developerMapper.toDTO(developer);
     }
